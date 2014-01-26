@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Build-Jdk: ${buildJdk}
+Created-By: ${createdBy}
+${mainClassTag}

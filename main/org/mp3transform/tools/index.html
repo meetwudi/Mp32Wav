@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Music</title>
+<style type="text/css">
+td, input, select, textarea, body, th {
+    font: 10pt Tahoma, Arial, Helvetica, sans-serif;
+    font-weight: normal;
+}
+tr {
+    padding: 2px;
+}
+td {
+    padding: 2px;
+    margin: 2px;
+    cursor: pointer;
+}
+</style>
+</head><body>
+<script type="text/javascript">
+var clip;
+var playing;
+var showing;
+function play(obj, album, files) {
+    if (playing != null) {
+        playing.style.backgroundColor = '';
+    }
+    playing = obj;
+    playing.style.backgroundColor = 'lightGray';
+    clip = document.getElementById('clip');
+    for (var i = 0; i < files.length; i++) {
+        var x = Math.floor(Math.random() * files.length);
+        var t = files[i];
+        files[i] = files[x];
+        files[x] = t;
+    }
+    clip.src = album + '/' + files[0];
+    clip.album = album;
+    files.splice(0, 1);
+    clip.remaining = files;
+    clip.play();
+}
+function show(obj, img) {
+    if (showing != null) {
+        showing.style.border = '';
+    }
+    showing = obj;
+    showing.style.border = '1px solid black';
+    var c = document.getElementById('cover');
+    c.style.top = obj.offsetTop + obj.offsetParent.offsetTop;
+    c.src = img + '/cover.jpg';
+}
+function hide(obj) {
+    //   obj.firstChild.innerHTML = '';
+}
+</script>
+<div style="position: fixed; top:0px; left:0px; z-index:10; background-color: white;">
+</br>
+&nbsp;&nbsp;<audio id="clip" style="width: 750px;" width="750" controls ><source src="a.mp3" type="audio/mpeg" /></audio>
+<br />
+<br />
+</div>
+<img id="cover" style="position: absolute; left: 500px; z-index: 5" width=256 height=256>
+<br />
+<br />
+<br />
+<br />
+<br />
+<table style="border-collapse:collapse">
+%list%
+</table>
+<div style="min-height: 500px">&nbsp;</div>
+<script type="text/javascript">
+clip = document.getElementById('clip');
+clip.addEventListener("ended", function() {
+    files = clip.remaining;
+    if (files.length > 0) {
+        clip.src = clip.album + '/' + files[0];
+        files.splice(0, 1);
+        clip.remaining = files;
+        clip.play();
+    }
+});
+</script>
+</body></html>
